@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import random
 from selenium.webdriver.common.action_chains import ActionChains
 import time
-
+import bot
 
 def openWordle():
 	driver = webdriver.Firefox()
@@ -35,10 +35,12 @@ def typeWord(word, driver):
 driver = openWordle()
 time.sleep(0.25) #sleep for 250 milliseconds
 word = chooseRandomWord()
+print(word)
 typeWord(word, driver)
-time.sleep(3.25) 
+time.sleep(2.25) 
 
-for x in range (1, 6):
+result = open('list', 'r').readline().split(' ')
+for x in range (1, 7):
 	label = (f"[aria-label='Row {x}']")
 	print(label)
 	elems_row1 = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, label))).find_elements(By.CSS_SELECTOR, "div")
@@ -51,4 +53,9 @@ for x in range (1, 6):
 		if el.get_attribute("data-state") == 'present':
 			guess.append(1)
 	print(guess)
-	break
+	result = bot.checkWord(word, guess, result)
+	print(len(result))
+	word = random.choice(result)
+	print(word)
+	typeWord(word, driver)
+	time.sleep(5)
