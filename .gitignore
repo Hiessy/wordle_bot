@@ -1,1 +1,4 @@
 *.log
+*.png
+Thumbs.db
+__pycache__
