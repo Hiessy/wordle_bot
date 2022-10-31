@@ -2,35 +2,53 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import random
 from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.common.keys import Keys
 import time
 
 
-driver = webdriver.Firefox()
-driver.get("https://www.nytimes.com/games/wordle/index.html")
-assert "Wordle - The New York Times" in driver.title
+def openWordle():
+	driver = webdriver.Firefox()
+	driver.get("https://www.nytimes.com/games/wordle/index.html")
+	assert "Wordle - The New York Times" in driver.title
+	close = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[aria-label='Close']")))
+	time.sleep(0.25)
+	close.click()
+	return driver
 
-close = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[aria-label='Close']")))
-words = open('list', 'r').readline().split(' ')
-close.click()
-word = random.choice(words)
-assert len(word) == 5
+
+def chooseRandomWord():
+	words = open('list', 'r').readline().split(' ')
+	word = random.choice(words)
+	return word
+
+def typeWord(word, driver):
+	actions = ActionChains(driver)
+	for l in word:
+		actions.send_keys(l)
+	actions.perform()
+	actions.send_keys(Keys.RETURN)
+	actions.perform()
+
+
+driver = openWordle()
 time.sleep(0.25) #sleep for 250 milliseconds
-actions = ActionChains(driver)
-for l in word:
-	actions.send_keys(l)
-actions.perform()
-actions.send_keys(Keys.RETURN)
-actions.perform()
-first = "//*[contains(text(), '"
-last = "')]"
-w = word[0].lower()
-va = str(first + w + last)
+word = chooseRandomWord()
+typeWord(word, driver)
+time.sleep(3.25) 
 
-row1 = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[aria-label='Row 1']")))
-print(row1)
-print(driver.find_element(By.XPATH, va))
+for x in range (1, 6):
+	label = (f"[aria-label='Row {x}']")
+	print(label)
+	elems_row1 = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, label))).find_elements(By.CSS_SELECTOR, "div")
+	guess = []
+	for el in elems_row1:
+		if el.get_attribute("data-state") == 'absent':
+			guess.append(2)	
+		if el.get_attribute("data-state") == 'correct':
+			guess.append(0)	
+		if el.get_attribute("data-state") == 'present':
+			guess.append(1)
+	print(guess)
+	break
