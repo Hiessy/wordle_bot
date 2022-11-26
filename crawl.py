@@ -34,7 +34,7 @@ def typeWord(word, driver):
 
 driver = openWordle()
 time.sleep(0.25) #sleep for 250 milliseconds
-word = chooseRandomWord()
+word = 'ALIVE'#chooseRandomWord()
 print(word)
 typeWord(word, driver)
 time.sleep(2.25) 
@@ -58,4 +58,4 @@ for x in range (1, 7):
 	word = random.choice(result)
 	print(word)
 	typeWord(word, driver)
-	time.sleep(5)
+	time.sleep(3)
