@@ -58,4 +58,4 @@ for x in range (1, 7):
 	word = random.choice(result)
 	print(word)
 	typeWord(word, driver)
-	time.sleep(3)
+	time.sleep(2)
