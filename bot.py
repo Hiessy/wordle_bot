@@ -31,7 +31,6 @@ def present(postion, letter, words):
 
 def absent(letter, words, position, t):
 	correctPos = getPosition(letter, t)
-	print(correctPos)
 	for word in list(words):
 		if letter in word:
 			if correctPos > -1:
@@ -47,8 +46,8 @@ def absent(letter, words, position, t):
 # if tuple on word and guess and then 
 def checkWord(word, guess, words):
 	#tuple and paass
-	print(guess)
 	print(word)
+	print(guess)
 	position = 0
 	t = zip(word, guess)		 
 	for k in t:
@@ -59,6 +58,8 @@ def checkWord(word, guess, words):
 			#AMBAN
 			words = present(position, k[0], words)
 		if k[1] == 2:
+			if word in words:
+				words.remove(word)
 			words = absent(k[0], words, position, zip(word, guess))
 		position = position + 1
 

@@ -35,14 +35,12 @@ def typeWord(word, driver):
 driver = openWordle()
 time.sleep(0.25) #sleep for 250 milliseconds
 word = 'ALIVE'#chooseRandomWord()
-print(word)
 typeWord(word, driver)
 time.sleep(2.25) 
 
 result = open('list', 'r').readline().split(' ')
 for x in range (1, 7):
 	label = (f"[aria-label='Row {x}']")
-	print(label)
 	elems_row1 = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, label))).find_elements(By.CSS_SELECTOR, "div")
 	guess = []
 	for el in elems_row1:
@@ -52,10 +50,8 @@ for x in range (1, 7):
 			guess.append(0)	
 		if el.get_attribute("data-state") == 'present':
 			guess.append(1)
-	print(guess)
 	result = bot.checkWord(word, guess, result)
 	print(len(result))
 	word = random.choice(result)
-	print(word)
 	typeWord(word, driver)
 	time.sleep(2)
