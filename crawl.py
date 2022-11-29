@@ -33,8 +33,9 @@ def typeWord(word, driver):
 
 
 driver = openWordle()
-time.sleep(0.25) #sleep for 250 milliseconds
-word = 'ALIVE'#chooseRandomWord()
+time.sleep(0.25) #Fixes not waiting for the page to loaad
+#Starting word 
+word = 'ALIVE'
 typeWord(word, driver)
 time.sleep(2.25) 
 
@@ -50,6 +51,11 @@ for x in range (1, 7):
 			guess.append(0)	
 		if el.get_attribute("data-state") == 'present':
 			guess.append(1)
+	print(word)
+	print(guess)		
+	if sum(guess) == 0:
+		#TODO share result in chat 
+		break;
 	result = bot.checkWord(word, guess, result)
 	print(len(result))
 	word = random.choice(result)
