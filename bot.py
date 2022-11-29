@@ -6,9 +6,9 @@ wordsInit = open('list', 'r').readline().split(' ')
 def getPosition(letter, t):
 	count = 0
 	for k in t:
-		count += 1
 		if k[0] == letter and (k[1] == 0 or k[1] == 1):
 			return count
+		count += 1
 	return -1
 
 def correct(position, letter, words):
@@ -31,7 +31,7 @@ def present(postion, letter, words):
 
 def absent(letter, words, position, t):
 	correctPos = getPosition(letter, t)
-	#PUTTI
+	print(correctPos)
 	for word in list(words):
 		if letter in word:
 			if correctPos > -1:
