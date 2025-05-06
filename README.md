@@ -1,23 +1,55 @@
-## Simple Wordle player
+# 🧠 Wordle Bot - Python + Selenium
 
-9 times out of 10, works 100% of time.
+This project is an automated bot that plays the New York Times Wordle using Selenium WebDriver and logic to interpret feedback from the game tiles.
 
-## Requirements?
-build with Python 3.9.13
-and selenium web driver
+## 🔧 Setup Instructions
 
-## How to setup
-Install python version 3.9.13 or which ever, they probably all work
-<br>
-Follow [selenium instalation](https://selenium-python.readthedocs.io/installation.html) for python, for you OS
-[Install Firefox](https://www.mozilla.org/en-US/firefox/windows/)
+### ✅ Requirements
 
-## How to run
-Clone this repo, for more information see [here](https://git-scm.com/docs/gittutorial), or just google how to git. Be sure to have the gecko driver configured correctly
+- Python 3.8+
+- Firefox browser
+- [GeckoDriver](https://github.com/mozilla/geckodriver/releases) installed and added to your system's PATH
+- `list` file (a space-separated list of valid 5-letter words)
 
+### 1. 📁 Clone the Repository
+
+```bash
+git clone https://github.com/your-username/wordle-bot.git
+cd wordle-bot
 ```
-$> git clone git@github.com:Hiessy/wordcloud.git
-$> pip install selenium 
-$> cd wordbot
-$> python crawl.py
+
+### 2. 🐍 Create and Activate Virtual Environment
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate the environment
+# On Windows:
+venv\Scripts\activate
+
+# On macOS/Linux:
+source venv/bin/activate
 ```
+### 3. 📦 Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+### 4. 🏁 Run the Bot
+```bash
+python wordle_bot.py
+```
+## 📄 File Structure
+```bash
+wordle-bot/
+├── wordle_bot.py        # Main script that runs the bot
+├── bot.py               # Logic module for filtering guesses
+├── list                 # A file containing space-separated 5-letter words
+├── requirements.txt     # Python dependencies
+└── README.md            # Setup guide
+```
+## 🧪 Notes
+* The bot uses Firefox with Selenium. To use Chrome, replace webdriver.Firefox() with webdriver.Chrome() and install ChromeDriver.
+* The first guess is hardcoded as ALIVE in wordle_bot.py, but you can change it.
+
+## 🤖 Disclaimer
+This project is for educational and fun automation purposes. Do not use it to cheat or violate any website's terms of service.
