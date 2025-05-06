@@ -1,5 +1,46 @@
-*.log
+.idea/
 *.png
 Thumbs.db
 test.py
 __pycache__
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+ENV/
+.venv/
+
+# VS Code and other editor settings
+.vscode/
+.idea/
+*.swp
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# Python-related cache and test files
+*.log
+*.tmp
+*.bak
+*.orig
+*.coverage
+coverage.xml
+*.pytest_cache/
+.pytest_cache/
+.cache/
+.tox/
+.nox/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Wordle bot specific
+list
