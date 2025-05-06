@@ -1,63 +1,86 @@
+import time
+import random
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import random
-from selenium.webdriver.common.action_chains import ActionChains
-import time
 import bot
 
-def openWordle():
-	driver = webdriver.Firefox()
-	driver.get("https://www.nytimes.com/games/wordle/index.html")
-	assert "Wordle - The New York Times" in driver.title
-	close = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, "[aria-label='Close']")))
-	time.sleep(0.25)
-	close.click()
-	return driver
+
+def open_wordle():
+    driver = webdriver.Firefox()
+    driver.get("https://www.nytimes.com/games/wordle/index.html")
+
+    WebDriverWait(driver, 5).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, 'button[data-testid="Play"]'))
+    ).click()
+
+    WebDriverWait(driver, 5).until(
+        EC.element_to_be_clickable((By.CSS_SELECTOR, "svg[data-testid='icon-close']"))
+    ).click()
+
+    return driver
 
 
-def chooseRandomWord():
-	words = open('list', 'r').readline().split(' ')
-	word = random.choice(words)
-	return word
-
-def typeWord(word, driver):
-	actions = ActionChains(driver)
-	for l in word:
-		actions.send_keys(l)
-	actions.perform()
-	actions.send_keys(Keys.RETURN)
-	actions.perform()
+def load_words(filepath='list'):
+    with open(filepath, 'r') as f:
+        return f.readline().strip().split()
 
 
-driver = openWordle()
-time.sleep(0.25) #Fixes not waiting for the page to loaad
-#Starting word 
-word = 'ALIVE'
-typeWord(word, driver)
-time.sleep(2.25) 
+def type_word(word, driver):
+    element = driver.find_element(By.TAG_NAME, 'body')
+    element.send_keys(word + Keys.RETURN)
 
-result = open('list', 'r').readline().split(' ')
-for x in range (1, 7):
-	label = (f"[aria-label='Row {x}']")
-	elems_row1 = WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, label))).find_elements(By.CSS_SELECTOR, "div")
-	guess = []
-	for el in elems_row1:
-		if el.get_attribute("data-state") == 'absent':
-			guess.append(2)	
-		if el.get_attribute("data-state") == 'correct':
-			guess.append(0)	
-		if el.get_attribute("data-state") == 'present':
-			guess.append(1)
-	print(word)
-	print(guess)		
-	if sum(guess) == 0:
-		#TODO share result in chat 
-		break;
-	result = bot.checkWord(word, guess, result)
-	print(len(result))
-	word = random.choice(result)
-	typeWord(word, driver)
-	time.sleep(2)
+
+def read_feedback(driver, row_number):
+    """
+    Returns a list representing the feedback:
+    0 - correct, 1 - present, 2 - absent
+    """
+    row_selector = f"[aria-label='Row {row_number}']"
+    row_elem = WebDriverWait(driver, 20).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, row_selector))
+    )
+    tiles = row_elem.find_elements(By.CSS_SELECTOR, "div")
+
+    feedback = []
+    for tile in tiles:
+        state = tile.get_attribute("data-state")
+        if state == 'correct':
+            feedback.append(0)
+        elif state == 'present':
+            feedback.append(1)
+        elif state == 'absent':
+            feedback.append(2)
+    return feedback
+
+
+def play_game():
+    driver = open_wordle()
+    time.sleep(0.5)  # Ensure full page load
+    words = load_words()
+    word = 'CRANE'  # Starting word
+
+    for attempt in range(1, 7):
+        type_word(word, driver)
+        time.sleep(2.0)
+
+        feedback = read_feedback(driver, attempt)
+        print(f"Attempt {attempt}: {word} -> {feedback}")
+
+        if sum(feedback) == 0:
+            print("Word guessed correctly!")
+            break
+
+        words = bot.check_word(word, feedback, words)
+        if not words:
+            print("No valid words left.")
+            break
+
+        word = random.choice(words)
+
+
+if __name__ == "__main__":
+    play_game()
