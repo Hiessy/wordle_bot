@@ -36,16 +36,19 @@ pip install -r requirements.txt
 ```
 ### 4. 🏁 Run the Bot
 ```bash
-wordle_bot wordle_bot.py
+python wordle_bot.py
 ```
 ## 📄 File Structure
 ```bash
 wordle-bot/
-├── wordle_bot.py        # Main script that runs the bot
-├── bot.py               # Logic module for filtering guesses
-├── list                 # A file containing space-separated 5-letter words
-├── requirements.txt     # Python dependencies
-└── README.md            # Setup guide
+├── src/                  # Package directory (actual Python code lives here)
+│   ├── __init__.py
+│   ├── bot.py                  # Logic module for filtering guesses
+│   ├── crawl.py                # Main script that runs the bot
+│   └── list                    # Space-separated list of 5-letter words
+├── requirements.txt            # Python dependencies
+├── README.md                   # Setup guide
+└── .gitignore                  # Common ignores (venv, pycache, etc.)
 ```
 ## 🧪 Notes
 * The bot uses Firefox with Selenium. To use Chrome, replace webdriver.Firefox() with webdriver.Chrome() and install ChromeDriver.
