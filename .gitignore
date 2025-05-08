@@ -43,4 +43,4 @@ coverage.xml
 .ipynb_checkpoints/
 
 # Wordle bot specific
-list
+src/list

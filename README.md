@@ -14,7 +14,7 @@ This project is an automated bot that plays the New York Times Wordle using Sele
 ### 1. 📁 Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/wordle-bot.git
+git clone https://github.com/hiessy/wordle-bot.git
 cd wordle-bot
 ```
 
@@ -36,7 +36,7 @@ pip install -r requirements.txt
 ```
 ### 4. 🏁 Run the Bot
 ```bash
-python wordle_bot.py
+wordle_bot wordle_bot.py
 ```
 ## 📄 File Structure
 ```bash
