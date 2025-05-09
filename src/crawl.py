@@ -7,6 +7,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import bot
 
+file_path = 'list'
+
 
 def open_wordle():
     driver = webdriver.Firefox()
@@ -23,10 +25,20 @@ def open_wordle():
     return driver
 
 
-def load_words(filepath='list'):
-    with open(filepath, 'r') as f:
-        return f.readline().strip().split()
+def load_words():
+    with open(file_path, 'r') as f:
+        return f.readline().upper().strip().split()
 
+
+def remove_word(word):
+    # Filter out the word you want to remove
+    with open(file_path, "r+") as file:
+        content = file.read()
+        words = content.split()
+        filtered = [w for w in words if w != word]
+        file.seek(0)
+        file.write(" ".join(filtered))
+        file.truncate()
 
 def type_word(word, driver):
     element = driver.find_element(By.TAG_NAME, 'body')
@@ -57,9 +69,9 @@ def read_feedback(driver, row_number):
 
 
 def play_game():
+    words = load_words()
     driver = open_wordle()
     time.sleep(0.5)  # Ensure full page load
-    words = load_words()
     word = 'CRANE'  # Starting word
 
     for attempt in range(1, 7):
@@ -71,6 +83,7 @@ def play_game():
 
         if sum(feedback) == 0:
             print("Word guessed correctly!")
+            remove_word(word)
             break
 
         words = bot.check_word(word, feedback, words)
