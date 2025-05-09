@@ -42,5 +42,3 @@ coverage.xml
 # Jupyter
 .ipynb_checkpoints/
 
-# Wordle bot specific
-src/list
