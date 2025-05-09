@@ -30,14 +30,14 @@ def load_words():
         return f.readline().upper().strip().split()
 
 
-def remove_word(word):
+def remove_word(word_to_remove):
     # Filter out the word you want to remove
     with open(file_path, "r+") as file:
         content = file.read()
         words = content.split()
-        filtered = [w for w in words if w != word]
+        filtered_words = [w for w in words if w != word_to_remove.lower()]
         file.seek(0)
-        file.write(" ".join(filtered))
+        file.write(" ".join(filtered_words))
         file.truncate()
 
 def type_word(word, driver):
