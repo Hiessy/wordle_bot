@@ -31,7 +31,7 @@ def load_words():
 
 
 def remove_word(word_to_remove):
-    # Filter out the word you want to remove
+    print(f"Removing {word_to_remove}")
     with open(file_path, "r+") as file:
         content = file.read()
         words = content.split()
