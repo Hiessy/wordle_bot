@@ -7,6 +7,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import bot
 
+past_words = "past_words"
+
 file_path = 'list'
 
 
@@ -27,7 +29,7 @@ def open_wordle():
 
 def load_words():
     with open(file_path, 'r') as f:
-        return f.readline().upper().strip().split()
+        return f.readline().strip().split()
 
 
 def remove_word(word_to_remove):
@@ -35,10 +37,13 @@ def remove_word(word_to_remove):
     with open(file_path, "r+") as file:
         content = file.read()
         words = content.split()
-        filtered_words = [w for w in words if w != word_to_remove.lower()]
+        filtered_words = [w for w in words if w != word_to_remove]
         file.seek(0)
         file.write(" ".join(filtered_words))
         file.truncate()
+    print(f"Adding {word_to_remove} to past words")
+    with open(past_words, "a") as f1:
+        f1.write(f" {word_to_remove}")
 
 def type_word(word, driver):
     element = driver.find_element(By.TAG_NAME, 'body')
