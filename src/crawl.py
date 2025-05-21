@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import bot
+from src.auto_push import git_add_commit_push
 
 past_words = "past_words"
 
@@ -89,6 +90,7 @@ def play_game():
         if sum(feedback) == 0:
             print("Word guessed correctly!")
             remove_word(word)
+            git_add_commit_push(f"removing word: {word}")
             break
 
         words = bot.check_word(word, feedback, words)
