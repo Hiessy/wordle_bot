@@ -78,7 +78,7 @@ def play_game():
     words = load_words()
     driver = open_wordle()
     time.sleep(0.5)  # Ensure full page load
-    word = 'CRANE'  # Starting word
+    word = 'ADIEU'  # Starting word
 
     for attempt in range(1, 7):
         type_word(word, driver)
