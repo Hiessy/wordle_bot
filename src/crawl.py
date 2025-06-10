@@ -8,6 +8,8 @@ from selenium.webdriver.support import expected_conditions as EC
 import bot
 from src.auto_push import git_add_commit_push
 
+starting_word = 'ADIEU'
+
 past_words = "past_words"
 
 file_path = 'list'
@@ -78,7 +80,7 @@ def play_game():
     words = load_words()
     driver = open_wordle()
     time.sleep(0.5)  # Ensure full page load
-    word = 'ADIEU'  # Starting word
+    word = starting_word
 
     for attempt in range(1, 7):
         type_word(word, driver)
