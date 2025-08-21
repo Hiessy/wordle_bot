@@ -94,7 +94,7 @@ def play_game():
             remove_word(word)
             git_add_commit_push(f"removing word: {word}")
             break
-
+#EXTOL
         words = bot.check_word(word, feedback, words)
         if not words:
             print("No valid words left.")
