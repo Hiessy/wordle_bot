@@ -12,7 +12,7 @@ starting_word = 'ADIEU'
 
 past_words = "past_words"
 
-file_path = 'list'
+file_path = 'list_full'
 
 
 def open_wordle():
